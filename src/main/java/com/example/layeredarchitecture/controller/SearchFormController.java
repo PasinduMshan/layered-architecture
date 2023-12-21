@@ -123,26 +123,10 @@ public class SearchFormController implements Initializable {
 
         LocalDate date = cmbDate.getValue();
 
-        BigDecimal total = new BigDecimal(0);
-
         try {
             ArrayList<QueryDTO> detailsOnSearchByDate = queryDAO.getDetailsOnSearchByDate(date);
-            for (QueryDTO queryDTO : detailsOnSearchByDate) {
-                obList.add(new QueryTM(
-                        queryDTO.getCustomerID(),
-                        queryDTO.getName(),
-                        queryDTO.getAddress(),
-                        queryDTO.getOrderID(),
-                        queryDTO.getOrderDate(),
-                        queryDTO.getDescription(),
-                        queryDTO.getQty(),
-                        queryDTO.getUnitPrice(),
-                        queryDTO.getTotal()
-                ));
-                total = total.add(queryDTO.getTotal());
-            }
-            tblOrderDetails.setItems(obList);
-            lblTotalAmount.setText(String.valueOf(total));
+            loadDetailToTm(detailsOnSearchByDate);
+
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         } catch (ClassNotFoundException e) {
@@ -165,28 +149,10 @@ public class SearchFormController implements Initializable {
             }
         }
 
-        ObservableList<QueryTM> obList = FXCollections.observableArrayList();
-
-        BigDecimal total = new BigDecimal(0);
         try {
             ArrayList<QueryDTO> detailsByYearAndMonth = queryDAO.getDetailsByYearAndMonth(year, monthNo);
+            loadDetailToTm(detailsByYearAndMonth);
 
-            for (QueryDTO queryDTO : detailsByYearAndMonth) {
-                obList.add(new QueryTM(
-                        queryDTO.getCustomerID(),
-                        queryDTO.getName(),
-                        queryDTO.getAddress(),
-                        queryDTO.getOrderID(),
-                        queryDTO.getOrderDate(),
-                        queryDTO.getDescription(),
-                        queryDTO.getQty(),
-                        queryDTO.getUnitPrice(),
-                        queryDTO.getTotal()
-                ));
-                total = total.add(queryDTO.getTotal());
-            }
-            tblOrderDetails.setItems(obList);
-            lblTotalAmount.setText(String.valueOf(total));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         } catch (ClassNotFoundException e) {
@@ -205,4 +171,26 @@ public class SearchFormController implements Initializable {
         Platform.runLater(() -> primaryStage.sizeToScene());
     }
 
+    public void loadDetailToTm(ArrayList<QueryDTO> arrayList) {
+        ObservableList<QueryTM> obList = FXCollections.observableArrayList();
+
+        BigDecimal total = new BigDecimal(0);
+
+        for (QueryDTO queryDTO : arrayList) {
+            obList.add(new QueryTM(
+                    queryDTO.getCustomerID(),
+                    queryDTO.getName(),
+                    queryDTO.getAddress(),
+                    queryDTO.getOrderID(),
+                    queryDTO.getOrderDate(),
+                    queryDTO.getDescription(),
+                    queryDTO.getQty(),
+                    queryDTO.getUnitPrice(),
+                    queryDTO.getTotal()
+            ));
+            total = total.add(queryDTO.getTotal());
+        }
+        tblOrderDetails.setItems(obList);
+        lblTotalAmount.setText(String.valueOf(total));
+    }
 }
