@@ -37,6 +37,8 @@ public class ManageCustomersFormController {
     public TextField txtCustomerAddress;
     public TableView<CustomerTM> tblCustomers;
     public JFXButton btnAddNewCustomer;
+
+
     CustomerDAO customerDAO = new CustomerDAOImpl();
 
     public void initialize() {

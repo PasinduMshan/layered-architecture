@@ -47,15 +47,15 @@
         <JFXButton id="btnSave" fx:id="btnSearchByDate" layoutX="549.0" layoutY="96.0" onAction="#btnSearchByDateOnAction" prefHeight="28.0" prefWidth="74.0" style="-fx-cursor: hand;" text="Search" />
         <TableView fx:id="tblOrderDetails" layoutX="34.0" layoutY="239.0" prefHeight="436.0" prefWidth="1086.0">
             <columns>
-                <TableColumn prefWidth="97.0" text="Customer ID" />
-                <TableColumn prefWidth="157.0" text="Name" />
-                <TableColumn prefWidth="110.0" text="Address" />
-                <TableColumn prefWidth="89.0" text="Order ID" />
-            <TableColumn prefWidth="89.0" text="Date" />
-            <TableColumn prefWidth="182.0" text="Description" />
-            <TableColumn prefWidth="84.0" text="Quantity" />
-            <TableColumn prefWidth="109.0" text="Unit Price" />
-            <TableColumn prefWidth="167.0" text="Amount" />
+                <TableColumn fx:id="colCustomerId" prefWidth="97.0" text="Customer ID" />
+                <TableColumn fx:id="colName" prefWidth="157.0" text="Name" />
+                <TableColumn fx:id="colAddress" prefWidth="110.0" text="Address" />
+                <TableColumn fx:id="colOrderId" prefWidth="89.0" text="Order ID" />
+            <TableColumn fx:id="colDate" prefWidth="89.0" text="Date" />
+            <TableColumn fx:id="colDescription" prefWidth="182.0" text="Description" />
+            <TableColumn fx:id="colQty" prefWidth="84.0" text="Quantity" />
+            <TableColumn fx:id="colUnitPrice" prefWidth="109.0" text="Unit Price" />
+            <TableColumn fx:id="colAmount" prefWidth="167.0" text="Amount" />
             </columns>
         </TableView>
       <Label layoutX="34.0" layoutY="102.0" text="Search Order Details  by Date :">
