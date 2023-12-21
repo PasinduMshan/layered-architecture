@@ -21,11 +21,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class SearchFormController implements Initializable {
@@ -123,6 +123,8 @@ public class SearchFormController implements Initializable {
 
         LocalDate date = cmbDate.getValue();
 
+        BigDecimal total = new BigDecimal(0);
+
         try {
             ArrayList<QueryDTO> detailsOnSearchByDate = queryDAO.getDetailsOnSearchByDate(date);
             for (QueryDTO queryDTO : detailsOnSearchByDate) {
@@ -137,9 +139,10 @@ public class SearchFormController implements Initializable {
                         queryDTO.getUnitPrice(),
                         queryDTO.getTotal()
                 ));
+                total = total.add(queryDTO.getTotal());
             }
             tblOrderDetails.setItems(obList);
-
+            lblTotalAmount.setText(String.valueOf(total));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         } catch (ClassNotFoundException e) {
@@ -164,6 +167,7 @@ public class SearchFormController implements Initializable {
 
         ObservableList<QueryTM> obList = FXCollections.observableArrayList();
 
+        BigDecimal total = new BigDecimal(0);
         try {
             ArrayList<QueryDTO> detailsByYearAndMonth = queryDAO.getDetailsByYearAndMonth(year, monthNo);
 
@@ -179,9 +183,10 @@ public class SearchFormController implements Initializable {
                         queryDTO.getUnitPrice(),
                         queryDTO.getTotal()
                 ));
+                total = total.add(queryDTO.getTotal());
             }
             tblOrderDetails.setItems(obList);
-
+            lblTotalAmount.setText(String.valueOf(total));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         } catch (ClassNotFoundException e) {
