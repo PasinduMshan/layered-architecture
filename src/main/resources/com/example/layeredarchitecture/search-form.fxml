@@ -18,7 +18,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1153.0" style="-fx-background-color: white;" stylesheets="@assests/styles/manage-items-form.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.layeredarchitecture.controller.SearchFormController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="654.0">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="350.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1153.0">
             <fill>
                 <LinearGradient endX="0.04807692307692308" endY="0.7115384615384616">
                     <stops>
@@ -42,7 +42,7 @@
         </Label>
       <DatePicker fx:id="cmbDate" layoutX="276.0" layoutY="97.0" prefHeight="26.0" prefWidth="215.0" />
 
-        <TextField fx:id="txtCode" layoutX="339.0" layoutY="155.0" prefHeight="26.0" prefWidth="167.0" promptText="Year :" />
+        <TextField fx:id="txtYear" layoutX="339.0" layoutY="155.0" prefHeight="26.0" prefWidth="167.0" promptText="Year :" />
 
         <JFXButton id="btnSave" fx:id="btnSearchByDate" layoutX="549.0" layoutY="96.0" onAction="#btnSearchByDateOnAction" prefHeight="28.0" prefWidth="74.0" style="-fx-cursor: hand;" text="Search" />
         <TableView fx:id="tblOrderDetails" layoutX="34.0" layoutY="239.0" prefHeight="436.0" prefWidth="1086.0">

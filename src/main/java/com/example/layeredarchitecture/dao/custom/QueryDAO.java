@@ -8,4 +8,6 @@ import java.util.ArrayList;
 
 public interface QueryDAO {
     ArrayList<QueryDTO> getDetailsOnSearchByDate(LocalDate date) throws SQLException, ClassNotFoundException;
+
+    ArrayList<QueryDTO> getDetailsByYearAndMonth(String year,String month) throws SQLException, ClassNotFoundException;
 }

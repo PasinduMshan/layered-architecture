@@ -25,6 +25,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class SearchFormController implements Initializable {
@@ -42,7 +43,7 @@ public class SearchFormController implements Initializable {
     private DatePicker cmbDate;
 
     @FXML
-    private ComboBox<?> cmbMonth;
+    private ComboBox<Object> cmbMonth;
 
     @FXML
     private AnchorPane root;
@@ -51,7 +52,7 @@ public class SearchFormController implements Initializable {
     private TableView<QueryTM> tblOrderDetails;
 
     @FXML
-    private TextField txtCode;
+    private TextField txtYear;
 
     @FXML
     private TableColumn<?, ?> colAddress;
@@ -80,12 +81,27 @@ public class SearchFormController implements Initializable {
     @FXML
     private TableColumn<?, ?> colUnitPrice;
 
+    private String[] AllMonth;
 
     QueryDAO queryDAO = new QueryDAOImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setCellValueFactory();
+        loadAllMonth();
+    }
+
+    private void loadAllMonth() {
+        ObservableList<Object> obList = FXCollections.observableArrayList();
+
+        AllMonth = new String[]{"JANUARY", "0FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER"
+                , "OCTOBER", "NOVEMBER", "DECEMBER"};
+
+        for (String months : AllMonth) {
+            obList.add(months);
+        }
+
+        cmbMonth.setItems(obList);
     }
 
     private void setCellValueFactory() {
@@ -102,31 +118,75 @@ public class SearchFormController implements Initializable {
     }
 
     @FXML
-    void btnSearchByDateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void btnSearchByDateOnAction(ActionEvent event) {
         ObservableList<QueryTM> obList = FXCollections.observableArrayList();
 
         LocalDate date = cmbDate.getValue();
-        ArrayList<QueryDTO> detailsOnSearchByDate = queryDAO.getDetailsOnSearchByDate(date);
 
-        for (QueryDTO queryDTO : detailsOnSearchByDate) {
-            obList.add(new QueryTM(
-                    queryDTO.getCustomerID(),
-                    queryDTO.getName(),
-                    queryDTO.getAddress(),
-                    queryDTO.getOrderID(),
-                    queryDTO.getOrderDate(),
-                    queryDTO.getDescription(),
-                    queryDTO.getQty(),
-                    queryDTO.getUnitPrice(),
-                    queryDTO.getTotal()
-            ));
+        try {
+            ArrayList<QueryDTO> detailsOnSearchByDate = queryDAO.getDetailsOnSearchByDate(date);
+            for (QueryDTO queryDTO : detailsOnSearchByDate) {
+                obList.add(new QueryTM(
+                        queryDTO.getCustomerID(),
+                        queryDTO.getName(),
+                        queryDTO.getAddress(),
+                        queryDTO.getOrderID(),
+                        queryDTO.getOrderDate(),
+                        queryDTO.getDescription(),
+                        queryDTO.getQty(),
+                        queryDTO.getUnitPrice(),
+                        queryDTO.getTotal()
+                ));
+            }
+            tblOrderDetails.setItems(obList);
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         }
-        tblOrderDetails.setItems(obList);
+
+
     }
 
     @FXML
     void btnSearchByYearAndMonthOnAction(ActionEvent event) {
+        String year = txtYear.getText();
+        String month = (String) cmbMonth.getValue();
 
+        String monthNo = null;
+
+        for (int i = 0; i < AllMonth.length; i++) {
+            if (month.equals(AllMonth[i])) {
+                monthNo = String.valueOf((i+1));
+            }
+        }
+
+        ObservableList<QueryTM> obList = FXCollections.observableArrayList();
+
+        try {
+            ArrayList<QueryDTO> detailsByYearAndMonth = queryDAO.getDetailsByYearAndMonth(year, monthNo);
+
+            for (QueryDTO queryDTO : detailsByYearAndMonth) {
+                obList.add(new QueryTM(
+                        queryDTO.getCustomerID(),
+                        queryDTO.getName(),
+                        queryDTO.getAddress(),
+                        queryDTO.getOrderID(),
+                        queryDTO.getOrderDate(),
+                        queryDTO.getDescription(),
+                        queryDTO.getQty(),
+                        queryDTO.getUnitPrice(),
+                        queryDTO.getTotal()
+                ));
+            }
+            tblOrderDetails.setItems(obList);
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+        }
     }
 
     @FXML
@@ -139,7 +199,5 @@ public class SearchFormController implements Initializable {
         primaryStage.centerOnScreen();
         Platform.runLater(() -> primaryStage.sizeToScene());
     }
-
-
 
 }
