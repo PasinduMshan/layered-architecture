@@ -195,7 +195,7 @@ public class PlaceOrderFormController {
 
     public String generateNewOrderId() {
         try {
-            return orderDAO.generateNewOderId();
+            return orderDAO.generateNewId();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
         } catch (ClassNotFoundException e) {
@@ -340,7 +340,7 @@ public class PlaceOrderFormController {
 
 
             connection = DBConnection.getDbConnection().getConnection();
-            boolean existOrder = orderDAO.existOrder(orderId);
+            boolean existOrder = orderDAO.exist(orderId);
             if (existOrder) {
                 return false;
             }
