@@ -59,6 +59,8 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     public boolean save(OrderDTO dto) throws SQLException, ClassNotFoundException {
+        return SQLUtil.execute("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)",dto.getOrderId(), dto.getOrderDate(), dto.getCustomerId());
+
         /*Connection connection = DBConnection.getDbConnection().getConnection();
         connection.setAutoCommit(false);
         PreparedStatement stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
@@ -66,8 +68,6 @@ public class OrderDAOImpl implements OrderDAO{
         stm.setDate(2, Date.valueOf(orderDate));
         stm.setString(3, customerId);
         return stm.executeUpdate() > 0;*/
-
-        return SQLUtil.execute("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)",dto.getOrderId(), dto.getOrderDate(), dto.getCustomerId());
 
        /* if (stm.executeUpdate() != 1) {
             connection.rollback();
