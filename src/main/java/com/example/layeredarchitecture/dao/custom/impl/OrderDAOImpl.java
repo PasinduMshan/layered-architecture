@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAOImpl implements OrderDAO {
+public class OrderDAOImpl implements OrderDAO{
 
    // OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
 
@@ -18,11 +18,6 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public ArrayList<OrderDTO> getAll() throws SQLException, ClassNotFoundException {
         return null;
-    }
-
-    @Override
-    public boolean save(OrderDTO dTO) throws SQLException, ClassNotFoundException {
-        return false;
     }
 
     @Override
@@ -63,7 +58,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException {
+    public boolean save(OrderDTO dto) throws SQLException, ClassNotFoundException {
         /*Connection connection = DBConnection.getDbConnection().getConnection();
         connection.setAutoCommit(false);
         PreparedStatement stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
@@ -72,7 +67,7 @@ public class OrderDAOImpl implements OrderDAO {
         stm.setString(3, customerId);
         return stm.executeUpdate() > 0;*/
 
-        return SQLUtil.execute("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)",orderId, orderDate, customerId);
+        return SQLUtil.execute("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)",dto.getOrderId(), dto.getOrderDate(), dto.getCustomerId());
 
        /* if (stm.executeUpdate() != 1) {
             connection.rollback();
